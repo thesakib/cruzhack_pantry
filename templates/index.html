@@ -32,7 +32,7 @@
       <div class="box has-shadow has-background-primary">
         <table class="table is-bordered is-fullwidth">
           <tbody>
-            <tr v-for="c in food_list" class="block">
+            <tr v-for="c in chat" class="block">
               <td>{{c}}</td>
             </tr>
           </tbody>
@@ -41,7 +41,7 @@
       <div class="block">
         <div class="field">
           <p class="control">
-            <input class="input" type="text" v-model="new_food" />
+            <input class="input" type="text" v-model="new_food" @keyup.enter="add_food" />
           </p>
         </div>
         <button class="button is-primary" @click="add_food">Add</button>

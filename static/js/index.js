@@ -3,15 +3,22 @@ let app = {};
 let init = (app) => {
     app.data = {
         food_list: [],
+        chat: [],
         new_food: "",
     };
 
-    
+
     app.add_food = function () {
+
         axios.post(add_food_url, {
             food_name: app.vue.new_food
         }).then(response => {
-            app.vue.food_list.push(app.vue.new_food);
+            app.vue.chat.push(app.vue.new_food);
+
+            for (let i = 0; i < response.data.foods.length; i++) {
+                app.vue.food_list.push(response.data.foods[i]);
+            }
+
             app.vue.new_food = "";
         }).catch(error => {
             console.error(error);

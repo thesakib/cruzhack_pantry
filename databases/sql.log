@@ -1,4 +1,4 @@
-timestamp: 2023-02-04T14:21:55.252035
+timestamp: 2023-02-04T19:48:34.401481
 CREATE TABLE "py4web_session"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "rkey" CHAR(512),
@@ -8,7 +8,7 @@ CREATE TABLE "py4web_session"(
     "expires_on" TIMESTAMP
 );
 success!
-timestamp: 2023-02-04T14:21:55.256686
+timestamp: 2023-02-04T19:48:34.407300
 CREATE TABLE "auth_user"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "email" CHAR(512) UNIQUE,
@@ -21,21 +21,14 @@ CREATE TABLE "auth_user"(
     "past_passwords_hash" TEXT
 );
 success!
-timestamp: 2023-02-04T14:21:55.261599
+timestamp: 2023-02-04T19:48:34.411873
 CREATE TABLE "auth_user_tag_groups"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "tagpath" CHAR(512),
     "record_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  
 );
 success!
-timestamp: 2023-02-04T14:38:26.961536
-CREATE TABLE "food"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "food_name" CHAR(512),
-    "date" DATE
-);
-success!
-timestamp: 2023-02-04T15:25:57.098735
+timestamp: 2023-02-04T19:48:34.419196
 CREATE TABLE "foods"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "food_name" CHAR(512),

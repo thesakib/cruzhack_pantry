@@ -31,6 +31,7 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .settings import APP_FOLDER
 from .models import get_user_email
+from .food_keyword_requester import get_food_keywords
 import spacy
 import os
 
@@ -62,8 +63,12 @@ def index():
 @action.uses(db)
 def add_food():
     food_name = request.params.get("food_name")
-    if food_name:
-        db.foods.insert(food_name=food_name)
+    print(food_name)
+    foods = get_food_keywords(food_name)
+    print(foods)
+    for food in foods:
+        db.foods.insert(food_name=food)
+    return {"foods": foods}
 
 @action("get_foods", method="GET")
 @action.uses(db)
