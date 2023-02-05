@@ -34,33 +34,25 @@ from .models import get_user_email
 from .food_keyword_requester import get_food_keywords
 import spacy
 import os
-import cohere
-
-import os
 import openai
-
-from dotenv import load_dotenv
-load_dotenv()
 
 model_path = os.path.join(APP_FOLDER, "food_ner")
 # print(model_path)
 nlp = spacy.load("en_core_web_sm")
-text = "For breakfast, I had eggs and toast. For lunch at Microsoft, I had a salad with chicken and a bowl of soup. For dinner, I had spaghetti with meatballs."
+# text = "For breakfast, I had eggs and toast. For lunch at Microsoft, I had a salad with chicken and a bowl of soup. For dinner, I had spaghetti with meatballs."
 
-doc = nlp(text)
+# doc = nlp(text)
 
-for ent in doc.ents:
-    print(ent.text, ent.label_)
-
+# for ent in doc.ents:
+#     print(ent.text, ent.label_)
+# print(os.getenv("OPENAI_API_KEY"))
 url_signer = URLSigner(session)
 
 
 @action('index')
 @action.uses('index.html', db, auth)
 def index():
-    print("User:", doc.ents)
-    for ent in doc.ents:
-        print(ent.text, ent.label_)
+
     return dict(
         get_foods_url=URL('get_foods'),
         add_food_url=URL('add_food'),
@@ -73,33 +65,25 @@ def get_recipe():
     ingrids = db(db.foods).select().as_list()
     food_list = ""
 
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = "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"
 
     for item in ingrids:
         foodname = item.get('food_name')
         food_list = food_list+'\n'+foodname
     response = "empty"
     print(food_list)
-    # food_list = "Food in my pantry:\n" + food_list + "\n\nRecipe:"
-    # co = cohere.Client('BBf3aGEh58aFte5bwyLtu6PJa36ZKO0cFCbtmO3i')
 
-    # response = co.generate(
-    #     model="4fece9cc-5e74-479e-bef5-f3c42611150c-ft",
-    #     prompt=food_list,
-    #     max_tokens=400
-    # )
-    food_prompt = "Create a recipe based on these ingredients and name it:\n\n" + food_list + "\nInstruction:\n"
+    food_prompt = "Create a recipe including these ingredients:\n\n" + food_list + "\nInstruction:\n"
     response = openai.Completion.create(
-        model="text-davinci-003",
+        model="text-ada-001",
         prompt=food_prompt,
         temperature=0.3,
-        max_tokens=120,
+        max_tokens=300,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
     )
 
-    # response = response.generations[0].text
     print(response["choices"][0]["text"])
     return response["choices"][0]["text"]
 
