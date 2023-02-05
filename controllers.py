@@ -61,6 +61,7 @@ def index():
     )
 
 def get_recipe():
+    ingrids = db(db.foods).select().as_list()
     recipe = "empty"
     ### recipes
     return recipe
