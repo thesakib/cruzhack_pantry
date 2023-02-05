@@ -1,7 +1,55 @@
 [[extend 'layout.html']]
 
-<div class="section">
-  <div class="vars">
-      [[=message]]
+<div class="section" id="vue-target">
+  <div class="columns">
+    <div class="column">
+      <h1 class="subtitle">Ingredients List:</h1>
+
+      <div v-for="(food, index) in food_list" :key="index" class="box">
+        {{ food }}
+        <button @click="removeFood(food)" class="button is-danger is-inverted">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+    </div>
+    <div class="column">
+      <div id="foods" class="block">
+        <!-- Here will go the foods. -->
+      <h1 class="subtitle">Chat</h1>
+      <div class="box has-shadow has-background-primary">
+        <table class="table is-bordered is-fullwidth">
+          <tbody>
+            <tr v-for="c in food_list" class="block">
+              <td>{{c}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="block">
+        <div class="field">
+          <p class="control">
+            <input class="input" type="text" v-model="new_food" />
+          </p>
+        </div>
+        <button class="button is-primary" @click="add_food">Add</button>
+      </div>
+    </div>
   </div>
+
 </div>
+<style>
+  .table tbody tr:nth-child(odd) {
+    background-color: #ee9f9f;
+  }
+  .table tbody tr:nth-child(even) {
+    background-color: #f1d7d7;
+  }
+</style>
+[[block page_scripts]]
+<script>
+  let get_foods_url = "[[=XML(get_foods_url)]]";
+  let add_food_url = "[[=XML(add_food_url)]]";
+  let remove_food_url = "[[=XML(remove_food_url)]]";
+</script>
+<script src="js/index.js"></script>
+[[end]]
