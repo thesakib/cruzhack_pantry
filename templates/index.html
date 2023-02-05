@@ -1,5 +1,18 @@
 [[extend 'layout.html']]
+<html lang="en">
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <style>
+        .dropdown-content {
+            max-height: 13em;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
 <div class="section" id="vue-target">
   <div class="columns">
     <div class="column">
@@ -7,7 +20,7 @@
 
       <div v-for="(food, index) in food_list" :key="index" class="box">
         {{ food }}
-        <button @click="removeFood(food)" class="button is-danger is-inverted">
+        <button @click="remove_food(food)" class="button is-danger is-inverted">
             <i class="fa fa-trash"></i>
         </button>
     </div>
@@ -37,14 +50,10 @@
   </div>
 
 </div>
-<style>
-  .table tbody tr:nth-child(odd) {
-    background-color: #ee9f9f;
-  }
-  .table tbody tr:nth-child(even) {
-    background-color: #f1d7d7;
-  }
-</style>
+
+</body>
+
+</html>
 [[block page_scripts]]
 <script>
   let get_foods_url = "[[=XML(get_foods_url)]]";

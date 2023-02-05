@@ -71,7 +71,7 @@ def get_foods():
     foods = db(db.foods).select().as_list()
     return {"foods": foods}
 
-@action("remove_food", method=["GET", "DELETE"])
+@action("remove_food", method=["GET", "POST"])
 @action.uses(db)
 def remove_food():
     food_name = request.params.get("food_name")

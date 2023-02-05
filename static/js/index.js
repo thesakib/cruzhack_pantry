@@ -6,6 +6,7 @@ let init = (app) => {
         new_food: "",
     };
 
+    
     app.add_food = function () {
         axios.post(add_food_url, {
             food_name: app.vue.new_food
@@ -26,13 +27,14 @@ let init = (app) => {
     };
 
     app.remove_food = function (food_name) {
+        console.log(app.vue.food_list);
         for (let i = 0; i < app.vue.food_list.length; i++) {
-            if (app.vue.food_list[i].food_name === food_name) {
+            if (app.vue.food_list[i] === food_name) {
                 app.vue.food_list.splice(i, 1);
-                app.enumerate(app.vue.food_list);
                 break;
             }
         }
+        console.log(app.vue.food_list);
         axios.post(remove_food_url, { food_name: food_name })
     };
 
