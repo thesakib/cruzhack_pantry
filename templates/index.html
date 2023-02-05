@@ -2,54 +2,68 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-    <style>
-        .dropdown-content {
-            max-height: 13em;
-            overflow: auto;
-        }
-    </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  <style>
+    .dropdown-content {
+      max-height: 13em;
+      overflow: auto;
+    }
+  </style>
 </head>
+
 <body>
-<div class="section" id="vue-target">
-  <div class="columns">
-    <div class="column">
-      <h1 class="subtitle">Ingredients List:</h1>
+  <div class="section" id="vue-target">
+    <div class="columns">
+      <div class="column">
+        <h1 class="subtitle">Ingredients List:</h1>
 
-      <div v-for="(food, index) in food_list" :key="index" class="box">
-        {{ food }}
-        <button @click="remove_food(food)" class="button is-danger is-inverted">
+        <div v-for="(food, index) in food_list" :key="index" class="box">
+          {{ food }}
+          <button @click="remove_food(food)" class="button is-danger is-inverted">
             <i class="fa fa-trash"></i>
-        </button>
-    </div>
-    </div>
-    <div class="column">
-      <div id="foods" class="block">
-        <!-- Here will go the foods. -->
-      <h1 class="subtitle">Chat</h1>
-      <div class="box has-shadow has-background-primary">
-        <table class="table is-bordered is-fullwidth">
-          <tbody>
-            <tr v-for="c in chat" class="block">
-              <td>{{c}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="block">
-        <div class="field">
-          <p class="control">
-            <input class="input" type="text" v-model="new_food" @keyup.enter="add_food" />
-          </p>
+          </button>
         </div>
-        <button class="button is-primary" @click="add_food">Add</button>
       </div>
-    </div>
-  </div>
+      <div class="column">
+        <h1>
+          <button class="button is-warning-light is-inverted mb-3" @click="toggleVisibility"> Recipe </button>
+        </h1>
+        <div>
+          <div class="card has-background-primary-light is-floating" v-if="isVisible">
+            <div class="card-content">
+              <p>[[=recipe]]</p>
+            </div>
+          </div>
+        </div>
 
-</div>
+      </div>
+      <div class="column">
+        <div id="foods" class="block">
+          <!-- Here will go the foods. -->
+          <h1 class="subtitle">Chat</h1>
+          <div class="box has-shadow has-background-primary">
+            <table class="table is-bordered is-fullwidth">
+              <tbody>
+                <tr v-for="c in chat" class="block">
+                  <td>{{c}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="block">
+            <div class="field">
+              <p class="control">
+                <input class="input" type="text" v-model="new_food" @keyup.enter="add_food" />
+              </p>
+            </div>
+            <button class="button is-primary" @click="add_food">Send</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
 </body>
 

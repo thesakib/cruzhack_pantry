@@ -5,6 +5,11 @@ let init = (app) => {
         food_list: [],
         chat: [],
         new_food: "",
+        isVisible: false
+    };
+
+    app.toggleVisibility = function () {
+        app.vue.isVisible = !app.vue.isVisible;
     };
 
 
@@ -44,10 +49,11 @@ let init = (app) => {
         console.log(app.vue.food_list);
         axios.post(remove_food_url, { food_name: food_name })
     };
-
+    
     app.methods = {
         add_food: app.add_food,
         remove_food: app.remove_food,
+        toggleVisibility: app.toggleVisibility
     };
 
     app.vue = new Vue({

@@ -57,7 +57,13 @@ def index():
         get_foods_url = URL('get_foods'),
         add_food_url = URL('add_food'),
         remove_food_url = URL('remove_food'),
+        recipe = get_recipe(),
     )
+
+def get_recipe():
+    recipe = "empty"
+    ### recipes
+    return recipe
 
 @action("add_food", method=["GET", "POST"])
 @action.uses(db)
