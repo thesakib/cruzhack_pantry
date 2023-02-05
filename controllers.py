@@ -28,12 +28,52 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 from py4web import action, request, abort, redirect, URL
 from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
+from py4web.utils.url_signer import URLSigner
+from .settings import APP_FOLDER
+from .models import get_user_email
+import spacy
+import os
 
+model_path = os.path.join(APP_FOLDER, "food_ner")
+# print(model_path)
+nlp = spacy.load("en_core_web_sm")
+text = "For breakfast, I had eggs and toast. For lunch at Microsoft, I had a salad with chicken and a bowl of soup. For dinner, I had spaghetti with meatballs."
+  
+doc = nlp(text)
+  
+for ent in doc.ents:
+    print(ent.text, ent.label_)
 
-@action("index")
-@action.uses("index.html", auth, T)
+url_signer = URLSigner(session)
+
+@action('index')
+@action.uses('index.html', db, auth)
 def index():
-    user = auth.get_user()
-    message = T("Hello {first_name}".format(**user) if user else "Pantry")
-    actions = {"allowed_actions": auth.param.allowed_actions}
-    return dict(message=message, actions=actions)
+    print("User:", doc.ents)  
+    for ent in doc.ents:
+        print(ent.text, ent.label_)
+    return dict(
+        get_foods_url = URL('get_foods'),
+        add_food_url = URL('add_food'),
+        remove_food_url = URL('remove_food'),
+    )
+
+@action("add_food", method=["GET", "POST"])
+@action.uses(db)
+def add_food():
+    food_name = request.params.get("food_name")
+    if food_name:
+        db.foods.insert(food_name=food_name)
+
+@action("get_foods", method="GET")
+@action.uses(db)
+def get_foods():
+    foods = db(db.foods).select().as_list()
+    return {"foods": foods}
+
+@action("remove_food", method=["GET", "DELETE"])
+@action.uses(db)
+def remove_food():
+    food_name = request.params.get("food_name")
+    if food_name:
+        db(db.foods.food_name == food_name).delete()
