@@ -24,11 +24,15 @@
           <button @click="remove_food(food)" class="button is-danger is-inverted">
             <i class="fa fa-trash"></i>
           </button>
+
         </div>
       </div>
       <div class="column">
         <h1>
           <button class="button is-warning-light is-inverted mb-3" @click="toggleVisibility"> Recipe </button>
+          <a class="button is-link is-inverted" href="[[=URL('index')]]">
+            <i class="fa fa-refresh"></i>
+          </a>
         </h1>
         <div>
           <div class="card has-background-primary-light is-floating" v-if="isVisible">
