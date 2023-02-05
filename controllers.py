@@ -34,6 +34,7 @@ from .models import get_user_email
 from .food_keyword_requester import get_food_keywords
 import spacy
 import os
+import cohere
 
 model_path = os.path.join(APP_FOLDER, "food_ner")
 # print(model_path)
@@ -62,9 +63,24 @@ def index():
 
 def get_recipe():
     ingrids = db(db.foods).select().as_list()
-    recipe = "empty"
-    ### recipes
-    return recipe
+    food_list = ""
+    for item in ingrids:
+        foodname = item.get('food_name')
+        food_list = food_list+','+foodname
+    response = "empty"
+    print(food_list)
+    food_list = "Food in my pantry:\n" + food_list + "\n\nRecipe:"
+    co = cohere.Client('BBf3aGEh58aFte5bwyLtu6PJa36ZKO0cFCbtmO3i')
+
+    response = co.generate(
+        model = "4fece9cc-5e74-479e-bef5-f3c42611150c-ft",
+        prompt = food_list,
+        max_tokens = 600
+        )
+    response = response.generations[0].text
+    print(response)
+    return response
+
 
 @action("add_food", method=["GET", "POST"])
 @action.uses(db)
