@@ -35,9 +35,11 @@ from .food_keyword_requester import get_food_keywords
 import spacy
 import os
 import openai
+from dotenv import load_dotenv
+
+load_dotenv()
 
 model_path = os.path.join(APP_FOLDER, "food_ner")
-# print(model_path)
 nlp = spacy.load("en_core_web_sm")
 # text = "For breakfast, I had eggs and toast. For lunch at Microsoft, I had a salad with chicken and a bowl of soup. For dinner, I had spaghetti with meatballs."
 
@@ -65,12 +67,16 @@ def get_recipe():
     ingrids = db(db.foods).select().as_list()
     food_list = ""
 
-    openai.api_key = "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"
+    if not ingrids:
+        response = "empty"
+        return(response)
+
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    print(openai.api_key)
 
     for item in ingrids:
         foodname = item.get('food_name')
         food_list = food_list+'\n'+foodname
-    response = "empty"
     print(food_list)
 
     food_prompt = "Create a recipe including these ingredients:\n\n" + food_list + "\nInstruction:\n"
